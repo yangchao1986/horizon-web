@@ -1,17 +1,21 @@
-#ï¼/bin/bash
+#£¡/bin/bash
 WORK_PATH='./web'
 cd $WORK_PATH
-echo 'ç¼–è¯‘æ–‡ä»¶'
+echo '±àÒëÎÄ¼ş'
 npm i --registry=https://registry.npm.taobao.org
 npm run build
-echo 'åˆ›å»ºé•œåƒ'
+echo '´´½¨¾µÏñ'
 docker build -t horizonsys/web:v1.0 . 
-echo 'åˆ é™¤æ—§å®¹å™¨'
+echo 'É¾³ı¾ÉÈİÆ÷'
 exist=`docker inspect --format '{{.State.Running}}' horizonsys-web`
 if [ "$exist" ];
 then
 docker stop horizonsys-web
 docker rm horizonsys-web
 fi;
-echo 'åˆ›å»ºæ–°å®¹å™¨'
+echo '´´½¨ĞÂÈİÆ÷'
+#Èç¹ûÆô¶¯Ê§°ÜÓÃdocker run -dit --name=horizonsys-web -p 30080:80 horizonsys/web:v1.0 bash
 docker run -di --name=horizonsys-web -p 30080:80 horizonsys/web:v1.0
+echo '½øÈëÈİÆ÷'
+docker exec -it horizonsys-web bash
+echo '¿ªÆô·şÎñ'
