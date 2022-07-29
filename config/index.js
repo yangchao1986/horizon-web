@@ -11,12 +11,12 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     /* 
-    * 1 写'/api'就等于写'http://10.71.32.138:38989'
+    * 1 写'/api'就等于写'http://localhost:8989'
     * 2 请求 url: '/api/Auto/Login',即等于http://192.158.0.001:5000/Auto/Login
     */
     proxyTable: {
       '/api': {
-        target: 'http://10.71.32.138:38989',
+        target: 'http://localhost:8989',
         ws: true,
         changeOrigin: true,
         pathRewrite: {//重写路径

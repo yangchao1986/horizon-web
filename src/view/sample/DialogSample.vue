@@ -1,4 +1,10 @@
 <template>
+  <!-- 添加样本表单
+  1、:close-on-click-modal="false" 点击遮罩不关闭
+  2、top="5vh" 弹窗与上边缘的距离
+  3、:before-close="handleClose" 关闭前判断
+
+  -->
   <el-dialog :title="title" :visible.sync="dialogVisible" width="50%" top="5vh" :close-on-click-modal="false" :before-close="handleClose">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" size="mini">
           <el-row>
@@ -123,11 +129,21 @@
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
+
+  <!--        <span slot="footer" class="dialog-footer">
+      <el-button @click="close">取 消</el-button>
+      <el-button type="primary" @click="close">确 定</el-button>
+    </span> -->
+    <!--        <span slot="footer" class="dialog-footer">
+              <el-button @click="dialogVisible=false">取 消</el-button>
+              <el-button type="primary" @click="dialogVisible=false">确 定</el-button>
+            </span> -->
   </el-dialog>
 </template>
 
 <script>
   export default {
+      //props:['//dialogVisible'],//props获取父组件参数
       props: {
         title: {
           type: String,
@@ -143,6 +159,7 @@
       data() {
         return {
           dialogVisible:false,
+          /* 表单赋值*/
           ruleForm: {
             id: '',
             code: '',
@@ -157,12 +174,13 @@
             status: '',
             test: '',
             sampling: '',
-            receiving: new Date(),
+            receiving: new Date(),//收样日期设置默认日期为今天
             unit: '',
             submitter: '',
             phone: '',
             remarks: '',
           },
+          /* 表单验证*/
           rules: {
             code: [
               { required: true, message: '请填入条形码', trigger: 'blur' },
@@ -194,6 +212,7 @@
             ],
 
           },
+          /* 项目维护*/
           options:[
             {
               value:"单基因遗传病检测",
@@ -216,6 +235,7 @@
           ]
         };
       },
+      /* 数据变化监听器 */
       watch:{
         rowData(val){
           console.log("监听数据变化");
@@ -223,6 +243,7 @@
         }
       },
       methods: {
+        /*弹窗取消操作*/
         handleClose() {
           this.$confirm('确认关闭？')
             .then(_ => {
@@ -230,15 +251,18 @@
             })
             .catch(_ => {});
         },
+        /* 关闭或取消弹窗*/
         close(){
+          // this.$emit("changeDialog") //父组件函数
           this.dialogVisible=false;
-          this.$parent.http(1);
+          this.$parent.http(1);//刷新父组件
         },
-         submitForm(formName) {
+        /* 表单提交*/
+        submitForm(formName) {
           this.$refs[formName].validate((valid) => {
             if (valid) {
-              if(this.title=="添加样本"){ 
-                this.ruleForm.test = JSON.stringify(this.ruleForm.test)
+              if(this.title=="添加样本"){ //根据title判断是增加数据还是更新数据
+                this.ruleForm.test = JSON.stringify(this.ruleForm.test) //将级联选择器数据转换成指定格式字符串
                 this.$api.addSample(this.ruleForm).then(res=>{
                   if(res.data.status==200){
                     this.$message({message:'提交成功!',type:'success'});
@@ -246,7 +270,7 @@
                 })
               };
               if(this.title=="编辑样本"){
-                this.ruleForm.test = JSON.stringify(this.ruleForm.test)
+                this.ruleForm.test = JSON.stringify(this.ruleForm.test) //将级联选择器数据转换成指定格式字符串
                 this.$api.editSample(this.ruleForm).then(res=>{
                   if(res.data.status==200){
                     this.$message({message:'编辑成功!',type:'success'});
@@ -259,6 +283,7 @@
             }
           });
         },
+        /* 表单重置 */
         resetForm(formName) {
           this.$refs[formName].resetFields();
         }
