@@ -23,7 +23,7 @@
     <div id="wrapper">
       <el-table
       ref="dataTable"
-      size="small"
+      size="medium"
       :data="tableData"
       :cell-style="{ textAlign:'center' }"
       :row-style="{ height:'10px' }"
@@ -31,8 +31,8 @@
         <el-table-column type="selection" width="60"></el-table-column>
         <el-table-column prop="code" label="物料编码" width="150"></el-table-column>
         <el-table-column prop="material" label="名称" width="200" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="brand" label="品牌" width="150" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="specification" label="型号规格" width="120" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="brand" label="品牌" width="180" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="specification" label="型号规格" width="150" show-overflow-tooltip></el-table-column>
         <el-table-column prop="article" label="货号" width="120" show-overflow-tooltip></el-table-column>
         <el-table-column prop="unit" label="单位" width="80"></el-table-column>
         <el-table-column prop="number" label="数量" width="80"></el-table-column>
@@ -48,7 +48,7 @@
     <!-- 分页区 -->
     <Pagination :total='total' :pageSize='pageSize' @changePage='changePage' :currentPage='currentPage'/>
     <!-- 弹窗页面 -->
-    <AddMaterial ref="dialog"/>
+    <AddMaterial ref="dialog" :title="title" :rowData="rowData"/>
   </div>
 </template>
 
@@ -73,6 +73,8 @@
         type: 1,           //定义一个参数与搜索数据区分
         dialogVisible: false, //默认弹窗关闭
         currentPage: 1,     //当前页码
+        title: '添加物料',  //弹窗标题
+        rowData:{}   //传递给弹窗子页面的数据
         
       }
     },
@@ -160,7 +162,9 @@
       },
       /* 编辑物料 */
       editMaterial(index, row) {
-        console.log('编辑用户');
+        this.$refs.dialog.dialogVisible = true;
+        this.title = '编辑物料';
+        this.rowData = row;   //注意这个row是取的后台返回的所有数据
       },
 
       /* 上传数据 */

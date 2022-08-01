@@ -61,7 +61,7 @@
         dialogVisible: false, //默认弹窗关闭
         currentPage:1         ,//当前页面
         title: '添加样本',
-        rowData:{}
+        rowData:{}   //传递给弹窗子页面的数据
       }
     },
 
@@ -91,8 +91,7 @@
       handleEdit(index, row) {
         this.$refs.dialog.dialogVisible = true;
         this.title = '编辑样本';
-        row.test = JSON.parse(row.test) //将数据库获取的字符串转成级联选择器认可的数据格式
-        console.log(row.test)
+        row.test = JSON.parse(row.test) //将数据库获取的检测项目字符串格式转成级联选择器认可的数据格式
         this.rowData = row;   //注意这个row是取的后台返回的所有数据
       },
       /* 删除操作 */

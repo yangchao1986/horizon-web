@@ -19,7 +19,7 @@ const base = {
   addMaterial: '/api/material/addMaterial',           //添加物料
   delMaterial: '/api/material/delMaterial',           //删除物料
   searchMaterial: '/api/material/searchMaterial',     //查询物料
-  editUMaterial: '/api/material/editMaterial',        //编辑物料
+  editMaterial: '/api/material/editMaterial',        //编辑物料
   addBatchMaterial: '/api/material/addBatchMaterial',      //批量添加物料
   selectMaterial: '/api/material/selectMaterial',      //通过ids查询物料
 }

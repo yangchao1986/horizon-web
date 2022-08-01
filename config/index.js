@@ -16,7 +16,7 @@ module.exports = {
     */
     proxyTable: {
       '/api': {
-        target: 'http://localhost:8989',
+        target: 'http://localhost:3000',
         ws: true,
         changeOrigin: true,
         pathRewrite: {//重写路径

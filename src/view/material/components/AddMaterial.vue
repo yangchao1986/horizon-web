@@ -1,7 +1,7 @@
 <template>
   <el-dialog :visible.sync="dialogVisible" width="50%" top="2vh" :close-on-click-modal="false">
     <template slot="title">
-        <span>添加物料</span>
+        <span>{{title}}</span>
         <el-divider></el-divider>
     </template>
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" size="mini">
@@ -151,86 +151,117 @@
 
 <script>
   export default {
-      data() {
-        return {
-          dialogVisible:false,
-          /* 表单赋值 */
-          ruleForm: {
-          code: '',            //物料编码
-          class: '',           //物料类别
-          material: '',        //物料名称
-          brand: '',           //品牌
-          specification: '',   //规格
-          article: '',         //货号
-          unit: '',            //单位
-          number: '',          //数量
-          batch: '',           //批次
-          serial: '',          //序列号
-          price: '',           //单价
-          storage: '',         //保存条件
-          expiration: '2099-12-30',      //有效期
-          supplier: '',        //供应商
-          liaison: '',         //联系人
-          phone: '',           //联系电话
-          receiving: '',       //收货日期
-          register: new Date(),//登记日期
-          assets: '',          //资产编号
-          remarks: '',         //备注信息
-          },
-          /* 表单验证*/
-          rules: {
-            code: [
-              { required: true, message: '请填入物料编码', trigger: 'blur' },
-              { min: 8, max: 15, message: '长度在 8 到 15 个字符', trigger: 'blur' }
-            ],
-            material: [
-              { required: true, message: '请填入物料名称', trigger: 'blur' },
-            ],
-            class: [
-              { required: true, message: '请选择物料类别', trigger: 'change' },
-            ],
-            brand: [
-              { required: true, message: '请填入品牌', trigger: 'blur' },
-            ],
-            specification: [
-              { required: true, message: '请填入规格', trigger: 'blur' },
-            ],
-            number: [
-              { required: true, message: '请填入数量', trigger: 'blur' },
-              { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
-            ],
-            unit: [
-              { required: true, message: '请选择单位', trigger: 'change' },
-            ],
-            receiving: [
-              { required: true, message: '请选择收货日期', trigger: 'change' },
-            ],
-          },
-        };
+    props: {
+      title: {
+        type: String,
+        default: '添加样本'
       },
-      methods: {
-        /* 表单提交*/
-        submitForm(formName) {
-          this.$refs[formName].validate((valid) => {
-            if (valid) {
-              this.$api.addMaterial(this.ruleForm).then(res=>{
-                if(res.data.status==200){
-                  this.$message({message:'提交成功!',type:'success'});
-                  setTimeout(()=>{this.resetForm(formName); this.$parent.materialList(1);},1000)//重置表单,刷新父组件
-                }else {
-                  this.$message.error('提交失败!')
-                  return false;
-                };
-              })
-             }
-          });
-        },
-        /* 表单重置*/
-        resetForm(formName) {
-          this.$refs[formName].resetFields();
+      rowData: {
+        type: Object,
+        default: function(){
+          return {}
         }
       }
-    };
+    },
+    data() {
+      return {
+        dialogVisible:false,
+        /* 表单赋值 */
+        ruleForm: {
+        code: '',            //物料编码
+        class: '',           //物料类别
+        material: '',        //物料名称
+        brand: '',           //品牌
+        specification: '',   //规格
+        article: '',         //货号
+        unit: '',            //单位
+        number: '1',          //数量
+        batch: '',           //批次
+        serial: '',          //序列号
+        price: '0.00',           //单价
+        storage: '',         //保存条件
+        expiration: '2099-12-30',      //有效期
+        supplier: '',        //供应商
+        liaison: '',         //联系人
+        phone: '',           //联系电话
+        receiving: new Date(),       //收货日期
+        register: new Date(),//登记日期
+        assets: '',          //资产编号
+        remarks: '',         //备注信息
+        },
+        /* 表单验证*/
+        rules: {
+          code: [
+            { required: true, message: '请填入物料编码', trigger: 'blur' },
+            { min: 8, max: 15, message: '长度在 8 到 15 个字符', trigger: 'blur' }
+          ],
+          material: [
+            { required: true, message: '请填入物料名称', trigger: 'blur' },
+          ],
+          class: [
+            { required: true, message: '请选择物料类别', trigger: 'change' },
+          ],
+          brand: [
+            { required: true, message: '请填入品牌', trigger: 'blur' },
+          ],
+          specification: [
+            { required: true, message: '请填入规格', trigger: 'blur' },
+          ],
+          number: [
+            { required: true, message: '请填入数量', trigger: 'blur' },
+          ],
+          unit: [
+            { required: true, message: '请选择单位', trigger: 'change' },
+          ],
+          receiving: [
+            { required: true, message: '请选择收货日期', trigger: 'change' },
+          ],
+        },
+      };
+    },
+    methods: {
+      /* 表单提交*/
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            if(this.title=="编辑物料"){
+              console.log("编辑物料")
+              this.$api.editMaterial(this.ruleForm).then(res=>{
+                if(res.data.status==200){
+                  this.$message({message:'更新成功!',type:'success'});
+                  setTimeout(()=>{this.resetForm(formName); this.$parent.materialList(1);},1000)//重置表单,刷新父组件
+                }else {
+                  this.$message.error('更新失败!')
+                }
+              })
+              return
+            }
+            console.log("添加物料")
+            this.$api.addMaterial(this.ruleForm).then(res=>{
+              if(res.data.status==200){
+                this.$message({message:'提交成功!',type:'success'});
+                setTimeout(()=>{this.resetForm(formName); this.$parent.materialList(1);},1000)//重置表单,刷新父组件
+              }else {
+                this.$message.error('提交失败!')
+              }
+            })
+            return
+          }
+        })
+      },
+      /* 表单重置*/
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      }
+    },
+    /* 数据变化监听器 */
+    watch:{
+      rowData(val){
+        console.log("监听数据变化");
+        this.ruleForm = val;
+      }
+    }
+  };
 </script>
 <style lang="scss" scoped>
 .demo-ruleForm{
