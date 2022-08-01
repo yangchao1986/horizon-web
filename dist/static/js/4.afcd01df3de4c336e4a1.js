@@ -1,0 +1,2 @@
+webpackJsonp([4],{D1j6:function(n,e,t){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=t("eQu8"),u=t.n(r);for(var i in r)"default"!==i&&function(n){t.d(e,n,function(){return r[n]})}(i);var a=t("OK/i");var c=function(n){t("f90/")},f=t("VU/8")(u.a,a.a,!1,c,null,null);e.default=f.exports},"OK/i":function(n,e,t){"use strict";var r={render:function(){var n=this.$createElement;return(this._self._c||n)("h1",[this._v("上机测序")])},staticRenderFns:[]};e.a=r},eQu8:function(n,e){},"f90/":function(n,e){}});
+//# sourceMappingURL=4.afcd01df3de4c336e4a1.js.map

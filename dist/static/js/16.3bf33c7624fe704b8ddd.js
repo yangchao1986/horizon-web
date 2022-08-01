@@ -1,0 +1,2 @@
+webpackJsonp([16],{YRxt:function(t,n){},f69K:function(t,n){},yti9:function(t,n,e){"use strict";var r={render:function(){var t=this.$createElement;return(this._self._c||t)("h1",[this._v("数据管理")])},staticRenderFns:[]};n.a=r},ztXZ:function(t,n,e){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var r=e("YRxt"),i=e.n(r);for(var u in r)"default"!==u&&function(t){e.d(n,t,function(){return r[t]})}(u);var a=e("yti9");var c=function(t){e("f69K")},f=e("VU/8")(i.a,a.a,!1,c,null,null);n.default=f.exports}});
+//# sourceMappingURL=16.3bf33c7624fe704b8ddd.js.map

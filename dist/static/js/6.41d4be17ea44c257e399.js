@@ -1,0 +1,2 @@
+webpackJsonp([6],{"/cS6":function(n,t){},"M/Yh":function(n,t,e){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=e("Wfao"),u=e.n(r);for(var a in r)"default"!==a&&function(n){e.d(t,n,function(){return r[n]})}(a);var c=e("omt2");var o=function(n){e("/cS6")},i=e("VU/8")(u.a,c.a,!1,o,null,null);t.default=i.exports},Wfao:function(n,t){},omt2:function(n,t,e){"use strict";var r={render:function(){var n=this.$createElement;return(this._self._c||n)("h1",[this._v("核酸提取")])},staticRenderFns:[]};t.a=r}});
+//# sourceMappingURL=6.41d4be17ea44c257e399.js.map

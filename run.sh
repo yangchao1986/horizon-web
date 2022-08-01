@@ -1,3 +1,4 @@
+#运行前需要安装vue2:npm install webpack webpack-cli vue-cli -g
 #！/bin/bash
 echo '编译文件' 
 npm i --registry=https://registry.npm.taobao.org 
