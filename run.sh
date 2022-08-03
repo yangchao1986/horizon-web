@@ -1,8 +1,5 @@
 #运行前需要安装vue2:npm install webpack webpack-cli vue-cli -g
 #！/bin/bash
-echo '编译文件' 
-npm i --registry=https://registry.npm.taobao.org 
-npm run build 
 echo '创建镜像' 
 docker build -t horizonsys/web:v1.0 . 
 echo '删除旧容器' 

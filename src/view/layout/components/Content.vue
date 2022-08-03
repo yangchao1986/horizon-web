@@ -43,7 +43,7 @@
 <style lang="scss" scoped>
   #header{
     height: 50px;
-    background-color: #42B983;
+    background-color: #597fe8;
     font-size: 25px;
   }
 

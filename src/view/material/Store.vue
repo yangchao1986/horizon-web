@@ -3,14 +3,14 @@
   <div id="material">
     <!-- 搜索区-->
     <div id="header">
-      <el-input v-model="input" placeholder="请输入内容" @change="searchMaterial"></el-input>
-      <el-button type="primary" @click="searchMaterial">查询物料</el-button>
+      <el-input v-model="input" placeholder="请输入内容" @change="searchMaterial(1)"></el-input>
+      <el-button type="primary" @click="searchMaterial(1)">查询物料</el-button>
       <el-button type="primary" @click="addMaterial">增加物料</el-button>
       <!-- 上传数据 -->
       <el-upload
         action=""
         id="upload-excel"
-        :on-change="handleChange"
+        :on-change="clickUpload"
         :show-file-list="false"
         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
         :auto-upload="false">
@@ -47,14 +47,17 @@
     </div>
     <!-- 分页区 -->
     <Pagination :total='total' :pageSize='pageSize' @changePage='changePage' :currentPage='currentPage'/>
-    <!-- 弹窗页面 -->
-    <AddMaterial ref="dialog" :title="title" :rowData="rowData"/>
+    <!-- 添加页面 -->
+    <AddMaterial ref="addDialog"/>
+    <!-- 编辑页面 -->
+    <editMaterial ref="editDialog" :rowData="rowData"/>
   </div>
 </template>
 
 <script>
   import Pagination from '@/components/Pagination.vue' //分页组件
   import AddMaterial from './components/AddMaterial.vue' //添加组件
+  import EditMaterial from './components/EditMaterial.vue' //编辑组件
   import importExcel from '@/assets/js/iexcel'
   import { exportJsonToExcel } from '@/assets/js/oexcel.js'
   import Moment from 'moment'
@@ -62,7 +65,8 @@
   export default{
     components:{
       Pagination,
-      AddMaterial
+      AddMaterial,
+      EditMaterial
     },
     data(){
       return{
@@ -73,9 +77,7 @@
         type: 1,           //定义一个参数与搜索数据区分
         dialogVisible: false, //默认弹窗关闭
         currentPage: 1,     //当前页码
-        title: '添加物料',  //弹窗标题
-        rowData:{}   //传递给弹窗子页面的数据
-        
+        rowData:{}   //传递给编辑子页面的数据
       }
     },
     methods: {
@@ -85,7 +87,7 @@
         if(this.type==1){
           this.materialList(num);
         }else{
-          this.tableData = this.list.slice((num-1)*3,num*3)
+          this.searchMaterial(num)
         }
       },
       /* 物料列表 */
@@ -93,23 +95,55 @@
         this.$api.getMaterialList({
           page
         }).then(res => {
-          if(res.data.status==200){
+          if(res.data.status == 200){
             this.$date.dateFilter(res.data.data);
-            this.tableData=res.data.data;
+            this.tableData = res.data.data;
             this.total = res.data.total;
             this.pageSize = res.data.pageSize;
           }
         })
       },
 
-      /* 添加物料--弹窗 */
-      changeDialog(){
-        this.dialogVisible = false
+      /* 搜索物料 */
+      searchMaterial(page){
+        var input = this.input
+        //空值时返回样本列表
+        if(!input){
+          this.materialList(1); //初始化用户列表
+          this.type = 1;    //解决搜索过后type=2,再空值搜索返回样本列表时仍然type=2，展示的数据就还是搜索数据，这步触发type=1才能真正返回样本列表。
+          return
+        }
+        //如果不是空置,就正常检索
+        this.$api.getSearchMaterial({
+          search:input,
+          page: page
+        }).then(res =>{
+          if(res.data.status == 200){
+            this.$date.dateFilter(res.data.data);
+            this.tableData = res.data.data;
+            this.total = res.data.total;
+            this.pageSize = res.data.pageSize;
+            this.type = 2;  //将搜索数据源编组为2
+          }else{
+            this.tableData = [];
+            this.total = 1;
+            this.pageSize = 1;
+          }
+        })
       },
+
+
       /* 添加物料 */
       addMaterial(){
-        this.$refs.dialog.dialogVisible = true
+        this.$refs.addDialog.dialogVisible = true
       },
+
+      /* 编辑物料 */
+      editMaterial(index, row) {
+        this.$refs.editDialog.dialogVisible = true;
+        this.rowData = row;   //注意这个row是取的后台返回的所有数据
+      },
+
       /* 删除物料 */
       delMaterial(index, row) {
         this.$confirm("此操作将彻底删除用户信息，是否继续?","提示",{
@@ -132,43 +166,9 @@
           this.$message({type: "info", message: "已取消删除!"})
         })
       },
-      /* 搜索物料 */
-      searchMaterial(){
-        //如果是空置则返回样本列表
-        this.currentPage = 1;  //当前页码
-        var val = this.input;  //绑定查询按钮获取输入的值
-        //空值时返回样本列表
-        if(!val){
-          this.materialList(1); //初始化用户列表
-          this.type = 1;    //解决搜索过后type=2,再空值搜索返回样本列表时仍然type=2，展示的数据就还是搜索数据，这步触发type=1才能真正返回样本列表。
-          return
-        }
-        //如果不是空置,就正常检索
-        this.$api.getSearchMaterial({
-          search:val
-        }).then(res =>{
-          if(res.data.status == 200){
-            this.total = res.data.result.length;
-            this.tableData = res.data.result.slice(0,3); //对获取的数据进行分割处理，建议放到后台处理以减少前台的压力
-            this.$date.dateFilter(res.data.result);
-            this.list = res.data.result;
-            this.type = 2;  //将搜索数据源编组为2
-          }else{
-            this.tableData = [];
-            this.total = 1;
-            this.pageSize = 1;
-          }
-        })
-      },
-      /* 编辑物料 */
-      editMaterial(index, row) {
-        this.$refs.dialog.dialogVisible = true;
-        this.title = '编辑物料';
-        this.rowData = row;   //注意这个row是取的后台返回的所有数据
-      },
 
-      /* 上传数据 */
-      handleChange (file, fileList) {
+      /* 批量上传数据 */
+      clickUpload (file, fileList) {
         const tableField = ['物料编码','物料名称'],
         tableHeader = {code:'物料编码', class:'物料类别', material:'物料名称',brand:'品牌', specification:'型号规格', 
         article:'货号', unit:'单位', number:'数量', batch:'批号', serial:'序列号', price:'单价', 
@@ -187,7 +187,7 @@
         })
       },
       
-      /* 下载数据 */
+      /* 批量下载数据 */
       clickDownload () {
         const tableField = ['receiving','code', 'material', 'brand', 'specification', 'article','unit','number',
         'batch','serial','storage', 'expiration', 'supplier', 
@@ -198,13 +198,11 @@
         assets:'资产编号', remarks:'备注信息'},
         tableTitle = '导出表格',
         templateData = []
-
         //获取选中的ids
         let sids=[]
         this.$refs.dataTable.selection.forEach(item=>{
           sids.push(item.id)
         })
-
         //通过ids获取数据列表
         if(sids.length>0){
           this.$api.selectMaterial({
@@ -228,21 +226,14 @@
         }else(
           this.$message.warning('请选择数据!')
         )
-       
       }
-
-
     },
 
     /* 生命周期函数 */
     created(){
       this.materialList(1)
     }
-
-}
-
-
-
+  }
 </script>
 
 <style lang="scss" scoped>

@@ -1,19 +1,19 @@
 <template>
   <el-dialog :visible.sync="dialogVisible" width="50%" top="2vh" :close-on-click-modal="false">
     <template slot="title">
-        <span>{{title}}</span>
+        <span>编辑物料</span>
         <el-divider></el-divider>
     </template>
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" size="mini">
         <el-row>
           <el-col :span="11">
             <el-form-item label="物料编码" prop="code">
-              <el-input v-model="ruleForm.code"></el-input>
+              <el-input v-model="ruleForm.code" :disabled="isAble"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="11">
             <el-form-item label="物料类别" prop="class">
-              <el-select v-model="ruleForm.class" placeholder="请选择" style="width: 100%;">
+              <el-select v-model="ruleForm.class" placeholder="请选择" style="width: 100%;" :disabled="isAble">
                 <el-option label="生化试剂" value="生化试剂"></el-option>
                 <el-option label="固定资产" value="固定资产"></el-option>
                 <el-option label="低值耗材" value="低值耗材"></el-option>
@@ -25,36 +25,36 @@
         <el-row>
           <el-col :span="11">
             <el-form-item label="物料名称" prop="material">
-              <el-input v-model="ruleForm.material"></el-input>
+              <el-input v-model="ruleForm.material" :disabled="isAble"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="11">
             <el-form-item label="资产编号" prop="assets">
-              <el-input v-model="ruleForm.assets"></el-input>
+              <el-input v-model="ruleForm.assets" :disabled="isAble"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="7">
             <el-form-item label="品牌" prop="brand">
-              <el-input v-model="ruleForm.brand"></el-input>
+              <el-input v-model="ruleForm.brand" :disabled="isAble"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="规格" prop="specification">
-              <el-input v-model="ruleForm.specification"></el-input>
+              <el-input v-model="ruleForm.specification" :disabled="isAble"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="货号" prop="article">
-              <el-input v-model="ruleForm.article"></el-input>
+              <el-input v-model="ruleForm.article" :disabled="isAble"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="7">
             <el-form-item label="单位" prop="unit">
-              <el-select v-model="ruleForm.unit" placeholder="请选择" style="width: 100%;">
+              <el-select v-model="ruleForm.unit" placeholder="请选择" style="width: 100%;" :disabled="isAble">
                 <el-option label="盒" value="盒"></el-option>
                 <el-option label="台" value="台"></el-option>
                 <el-option label="瓶" value="瓶"></el-option>
@@ -65,31 +65,31 @@
           </el-col>
           <el-col :span="7">
             <el-form-item label="数量" prop="number">
-              <el-input v-model="ruleForm.number"></el-input>
+              <el-input v-model="ruleForm.number" :disabled="isAble"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="单价" prop="price">
-              <el-input v-model="ruleForm.price"></el-input>
+              <el-input v-model="ruleForm.price" :disabled="isAble"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="11">
             <el-form-item label="批号" prop="batch">
-              <el-input v-model="ruleForm.batch"></el-input>
+              <el-input v-model="ruleForm.batch" :disabled="isAble"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="11">
             <el-form-item label="序列号" prop="serial">
-              <el-input v-model="ruleForm.serial"></el-input>
+              <el-input v-model="ruleForm.serial" :disabled="isAble"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="11">
             <el-form-item label="储存于" prop="storage">
-              <el-select v-model="ruleForm.storage" placeholder="请选择" style="width: 100%;">
+              <el-select v-model="ruleForm.storage" placeholder="请选择" style="width: 100%;" :disabled="isAble">
                 <el-option label="室温10~30℃" value="室温10~30℃"></el-option>
                 <el-option label="冷藏2~8℃" value="冷藏2~8℃"></el-option>
                 <el-option label="冷冻-15~-25℃" value="冷冻-15~25℃"></el-option>
@@ -99,33 +99,33 @@
           </el-col>
           <el-col :span="11">
             <el-form-item label="有效期" prop="expiration">
-              <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.expiration" style="width: 100%;"></el-date-picker>
+              <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.expiration" style="width: 100%;" :disabled="isAble"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="22">
             <el-form-item label="供应商" prop="supplier">
-              <el-input v-model="ruleForm.supplier"></el-input>
+              <el-input v-model="ruleForm.supplier" :disabled="isAble"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="11">
             <el-form-item label="联系人" prop="liaison">
-              <el-input v-model="ruleForm.liaison"></el-input>
+              <el-input v-model="ruleForm.liaison" :disabled="isAble"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="11">
             <el-form-item label="联系电话" prop="phone">
-              <el-input v-model="ruleForm.phone"></el-input>
+              <el-input v-model="ruleForm.phone" :disabled="isAble"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="11">
             <el-form-item label="收货日期" prop="receiving">
-              <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.receiving" style="width: 100%;"></el-date-picker>
+              <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.receiving" style="width: 100%;" :disabled="isAble"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="11">
@@ -137,13 +137,13 @@
         <el-row>
           <el-col :span="22">
             <el-form-item label="备注信息" prop="remarks" style="width: 100%;">
-              <el-input type="textarea" v-model="ruleForm.remarks"></el-input>
+              <el-input type="textarea" v-model="ruleForm.remarks" :disabled="isAble"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">更新数据</el-button>
+          <el-button type="primary" @click="isAble=false">编辑数据</el-button>
         </el-form-item>
     </el-form>
   </el-dialog>
@@ -165,7 +165,8 @@
     },
     data() {
       return {
-        dialogVisible:false,
+        dialogVisible: false,
+        isAble: true,
         /* 表单赋值 */
         ruleForm: {
         code: '',            //物料编码
@@ -193,7 +194,6 @@
         rules: {
           code: [
             { required: true, message: '请填入物料编码', trigger: 'blur' },
-            { min: 8, max: 15, message: '长度在 8 到 15 个字符', trigger: 'blur' }
           ],
           material: [
             { required: true, message: '请填入物料名称', trigger: 'blur' },
@@ -224,27 +224,31 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$api.addMaterial(this.ruleForm).then(res=>{
+            this.$api.editMaterial(this.ruleForm).then(res=>{
               if(res.data.status==200){
-                this.$message({message:'提交成功!',type:'success'});
-                setTimeout(()=>{this.resetForm(formName); this.$parent.materialList(1);},1000)//重置表单,刷新父组件
+                this.$message({message:'更新成功!',type:'success'});
+                setTimeout(()=>{this.$parent.materialList(1);},500)//重置表单,刷新父组件
               }else {
-                this.$message.error('提交失败!')
+                this.$message.error('更新失败!')
               }
             })
+            this.isAble = true
             return
           }
         })
       },
-      /* 表单重置*/
-      resetForm() {
-        this.$refs['ruleForm'].resetFields();
-      }
     },
-  };
+    /* 数据变化监听器 */
+    watch:{
+      rowData(val){
+        this.isAble = true;
+        this.ruleForm = val;
+      }
+    }
+  }
 </script>
 <style lang="scss" scoped>
-.demo-ruleForm{
-  margin-top: -20px;
-}
+  .demo-ruleForm{
+    margin-top: -20px;
+  }
 </style>

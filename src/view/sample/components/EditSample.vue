@@ -5,17 +5,17 @@
   3、:before-close="handleClose" 关闭前判断
 
   -->
-  <el-dialog :title="title" :visible.sync="dialogVisible" width="50%" top="5vh" :close-on-click-modal="false" :before-close="handleClose">
+  <el-dialog title="编辑样本" :visible.sync="dialogVisible" width="50%" top="5vh" :close-on-click-modal="false" :before-close="handleClose">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" size="mini">
           <el-row>
             <el-col :span="11">
               <el-form-item label="条形码" prop="code">
-                <el-input v-model="ruleForm.code"></el-input>
+                <el-input v-model="ruleForm.code" :disabled="isAble"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="11">
               <el-form-item label="样本类型" prop="sample">
-                <el-select v-model="ruleForm.sample" placeholder="请选择样本类型" style="width: 100%;">
+                <el-select v-model="ruleForm.sample" placeholder="请选择样本类型" style="width: 100%;" :disabled="isAble">
                   <el-option label="EDTA抗凝血" value="EDTA抗凝血"></el-option>
                   <el-option label="口腔粘膜" value="口腔粘膜"></el-option>
                   <el-option label="流产组织" value="流产组织"></el-option>
@@ -28,12 +28,12 @@
           <el-row>
             <el-col :span="11">
               <el-form-item label="姓名" prop="name">
-                <el-input v-model="ruleForm.name"></el-input>
+                <el-input v-model="ruleForm.name" :disabled="isAble"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="11">
               <el-form-item label="样本状态" prop="status">
-                <el-select v-model="ruleForm.status" placeholder="请选择样本状态" style="width: 100%;">
+                <el-select v-model="ruleForm.status" placeholder="请选择样本状态" style="width: 100%;" :disabled="isAble">
                   <el-option label="合格" value="合格"></el-option>
                   <el-option label="不合格" value="不合格"></el-option>
                   <el-option label="未知" value="未知"></el-option>
@@ -44,7 +44,7 @@
           <el-row>
             <el-col :span="11">
               <el-form-item label="性别" prop="sex">
-                <el-select v-model="ruleForm.sex" placeholder="请选择性别" style="width: 100%;">
+                <el-select v-model="ruleForm.sex" placeholder="请选择性别" style="width: 100%;" :disabled="isAble">
                   <el-option label="男" value="男"></el-option>
                   <el-option label="女" value="女"></el-option>
                   <el-option label="未知" value="未知"></el-option>
@@ -53,26 +53,26 @@
             </el-col>
             <el-col :span="11">
               <el-form-item label="检测项目" prop="test">
-                <el-cascader v-model="ruleForm.test" :show-all-levels="false"  style="width: 100%;" :options="options" :props="{ multiple: true, checkStrictly: false }" clearable></el-cascader>
+                <el-cascader v-model="ruleForm.test" :show-all-levels="false"  style="width: 100%;" :options="options" :props="{ multiple: true, checkStrictly: false }" clearable :disabled="isAble"></el-cascader>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="11">
               <el-form-item label="年龄" prop="age">
-                <el-input v-model="ruleForm.age"></el-input>
+                <el-input v-model="ruleForm.age" :disabled="isAble"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="11">
               <el-form-item label="采样日期" prop="sampling">
-                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.sampling" style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.sampling" style="width: 100%;" :disabled="isAble"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="11">
               <el-form-item label="证件号码" prop="uid">
-                <el-input v-model="ruleForm.uid"></el-input>
+                <el-input v-model="ruleForm.uid" :disabled="isAble"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="11">
@@ -84,49 +84,49 @@
           <el-row>
             <el-col :span="11">
               <el-form-item label="现病史" prop="disease">
-                <el-input v-model="ruleForm.disease"></el-input>
+                <el-input v-model="ruleForm.disease" :disabled="isAble"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="11">
               <el-form-item label="送检单位" prop="unit">
-                <el-input v-model="ruleForm.unit"></el-input>
+                <el-input v-model="ruleForm.unit" :disabled="isAble"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="11">
               <el-form-item label="家族病史" prop="history">
-                <el-input v-model="ruleForm.history"></el-input>
+                <el-input v-model="ruleForm.history" :disabled="isAble"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="11">
               <el-form-item label="送检人" prop="submitter">
-                <el-input v-model="ruleForm.submitter"></el-input>
+                <el-input v-model="ruleForm.submitter" :disabled="isAble"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="11">
               <el-form-item label="临床诊断" prop="clinical">
-                <el-input v-model="ruleForm.clinical"></el-input>
+                <el-input v-model="ruleForm.clinical" :disabled="isAble"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="11">
               <el-form-item label="联系方式" prop="phone">
-                <el-input v-model="ruleForm.phone"></el-input>
+                <el-input v-model="ruleForm.phone" :disabled="isAble"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="22">
               <el-form-item label="备注信息" prop="remarks" style="width: 100%;">
-                <el-input type="textarea" v-model="ruleForm.remarks"></el-input>
+                <el-input type="textarea" v-model="ruleForm.remarks" :disabled="isAble"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">更新数据</el-button>
+            <el-button @click="isAble=false">编辑数据</el-button>
           </el-form-item>
         </el-form>
 
@@ -145,10 +145,6 @@
   export default {
       //props:['//dialogVisible'],//props获取父组件参数
       props: {
-        title: {
-          type: String,
-          default: '添加样本'
-        },
         rowData: {
           type: Object,
           default: function(){
@@ -159,6 +155,7 @@
       data() {
         return {
           dialogVisible:false,
+          isAble:true,
           /* 表单赋值*/
           ruleForm: {
             id: '',
@@ -174,7 +171,7 @@
             status: '',
             test: '',
             sampling: '',
-            receiving: new Date(),//收样日期设置默认日期为今天
+            receiving: '',//收样日期设置默认日期为今天
             unit: '',
             submitter: '',
             phone: '',
@@ -194,7 +191,7 @@
               { required: true, message: '请填入送检人', trigger: 'blur' },
               { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
             ],
-            call: [
+            phone: [
               { required: true, message: '请输入联系方式', trigger: 'blur' },
               { min: 11, max: 11, message: '请输入正确联系方式', trigger: 'blur' }
             ],
@@ -238,7 +235,8 @@
       /* 数据变化监听器 */
       watch:{
         rowData(val){
-          console.log("监听数据变化");
+          this.isAble = true
+          val.test = JSON.parse(val.test) //将数据库获取的检测项目字符串格式转成级联选择器认可的数据格式
           this.ruleForm = val;
         }
       },
@@ -255,37 +253,24 @@
         close(){
           // this.$emit("changeDialog") //父组件函数
           this.dialogVisible=false;
-          this.$parent.http(1);//刷新父组件
+          this.$parent.sampleList(1);//刷新父组件
         },
         /* 表单提交*/
         submitForm(formName) {
           this.$refs[formName].validate((valid) => {
             if (valid) {
-              if(this.title=="添加样本"){ //根据title判断是增加数据还是更新数据
-                this.ruleForm.test = JSON.stringify(this.ruleForm.test) //将级联选择器数据转换成指定格式字符串
-                this.$api.addSample(this.ruleForm).then(res=>{
-                  if(res.data.status==200){
-                    this.$message({message:'提交成功!',type:'success'});
-                  }
-                })
-              };
-              if(this.title=="编辑样本"){
-                this.ruleForm.test = JSON.stringify(this.ruleForm.test) //将级联选择器数据转换成指定格式字符串
-                this.$api.editSample(this.ruleForm).then(res=>{
-                  if(res.data.status==200){
-                    this.$message({message:'编辑成功!',type:'success'});
-                  }
-                })
-              }
+              this.ruleForm.test = JSON.stringify(this.ruleForm.test) //将级联选择器数据转换成指定格式字符串
+              this.$api.addSample(this.ruleForm).then(res=>{
+                if(res.data.status==200){
+                  this.$message({message:'提交成功!',type:'success'});
+                  setTimeout(()=>{this.$parent.sampleList(1);},500)//重置表单,刷新父组件
+                }
+              })
             } else {
-                this.$message.error('提交失败!')
-                return false;
+              this.$message.error('提交失败!')
             }
-          });
-        },
-        /* 表单重置 */
-        resetForm(formName) {
-          this.$refs[formName].resetFields();
+          })
+          this.isAble=true
         }
       }
     };

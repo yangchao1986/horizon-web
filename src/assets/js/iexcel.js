@@ -63,7 +63,6 @@
               })
               arr.push(obj)
             })
-            console.log(arr)
           }
           // 下面是数据解析提取逻辑
           // if (tableField.length > 0) {
